@@ -19,20 +19,25 @@ describe("todolist test suite", () => {
       dueDate: new Date().toISOString().split("T")[0],
     });
     add({
+      title: "work 5",
+      completed: false,
+      dueDate: yesterday.toISOString().split("T")[0],
+    });
+    add({
       title: "work 3",
       completed: false,
       dueDate: tomorrow.toISOString().split("T")[0],
     });
   });
   test("should add new todo", () => {
-    expect(all.length).toBe(3);
+    expect(all.length).toBe(4);
     const todoItemCount = all.length;
     add({
       title: "work 4",
       completed: false,
-      deuDate: new Date().toISOString().split("T")[0],
+      dueDate: new Date().toISOString().split("T")[0],
     });
-    expect(all.length).toBe(todoItemCount + 1);
+    expect(todoItemCount + 1).toBe(5);
   });
   test("should mark a todo complete", () => {
     expect(all[0].completed).toBe(false);
@@ -40,7 +45,7 @@ describe("todolist test suite", () => {
     expect(all[0].completed).toBe(true);
   });
   test("should check the overdue", () => {
-    expect(overdue().length).toBe(1);
+    expect(overdue().length).toBe(2);
   });
   test("should check the dueToday", () => {
     expect(dueToday().length).toBe(2);
