@@ -29,6 +29,7 @@ describe("todolist test suite", () => {
       dueDate: tomorrow.toISOString().split("T")[0],
     });
   });
+
   test("should add new todo", () => {
     expect(all.length).toBe(4);
     const todoItemCount = all.length;
@@ -37,20 +38,48 @@ describe("todolist test suite", () => {
       completed: false,
       dueDate: new Date().toISOString().split("T")[0],
     });
-    expect(todoItemCount + 1).toBe(5);
+    expect(all.length).toBe(todoItemCount + 1);
   });
+
   test("should mark a todo complete", () => {
     expect(all[0].completed).toBe(false);
     markAsComplete(0);
     expect(all[0].completed).toBe(true);
   });
+
   test("should check the overdue", () => {
-    expect(overdue().length).toBe(2);
+    let today = new Date();
+    let yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    const overdueCount = overdue().length;
+    add({
+      title: "work 6",
+      completed: false,
+      dueDate: yesterday.toISOString().split("T")[0],
+    });
+    expect(overdue().length).toBe(overdueCount + 1);
   });
+
   test("should check the dueToday", () => {
-    expect(dueToday().length).toBe(2);
+    const dueTodayCount = dueToday().length;
+    add({
+      title: "work 7",
+      completed: false,
+      dueDate: new Date().toISOString().split("T")[0],
+    });
+    expect(dueToday().length).toBe(dueTodayCount + 1);
   });
+
   test("should check the dueLater", () => {
-    expect(dueLater().length).toBe(1);
+    let today = new Date();
+    let tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    const dueLaterCount = dueLater().length;
+    add({
+      title: "work 8",
+      completed: false,
+      dueDate: tomorrow.toISOString().split("T")[0],
+    });
+    expect(dueLater().length).toBe(dueLaterCount + 1);
   });
 });
